@@ -1,11 +1,18 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
+import {Route,Routes} from "react-router-dom"
+import Home from "./pages/Home"
 
 function App() {
   return (
-  <div className=' border-l-amber-950 bg-red-700'>
-    Hello word
-  </div>
+    <div className=" w-screen min-h-screen bg-black flex flex-col font-inter">
+      home
+      <Routes>
+        <Route path='/'element= {<Home/>}/>
+      </Routes>
+     
+      
+    </div>
   );
 }
 
