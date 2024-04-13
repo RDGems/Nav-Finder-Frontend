@@ -6,12 +6,10 @@ import Home from "./pages/Home"
 function App() {
   return (
     <div className=" w-screen min-h-screen bg-black flex flex-col font-inter">
-      home
+      Home
       <Routes>
         <Route path='/'element= {<Home/>}/>
       </Routes>
-     
-      
     </div>
   );
 }
