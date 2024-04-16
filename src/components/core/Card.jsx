@@ -1,7 +1,9 @@
 import React from 'react'
-import images from "../assests/images/city bus.gif"
-import CButton from "../components/CButton"
-import Highlight from './Highlight'
+import images from "../../assests/images/city bus.gif"
+import CButton from "../CButton"
+import Highlight from '../Highlight'
+// import Signup from '../pages/Signup'
+// import { Link, Navigate } from 'react-router-dom'
 
 const Card = () => {
   return (
@@ -13,10 +15,10 @@ const Card = () => {
         </div>
         <p className='mt-3'>Make money on your schedule with deliveries or rides or both. You can use your own car or choose a rental through NavFinder.</p>
         <div className='flex flex-row gap-4 mt-8'>
-          <CButton active={true} linkto={"/signup"}>
+          <CButton active={true} linkto={"/Signup"}>
           trip!!
           </CButton>
-          <CButton active={false} linkto={"/signup"}>
+          <CButton active={false} linkto={"/Signup"}>
             Test YourSelf
           </CButton>
         </div>
