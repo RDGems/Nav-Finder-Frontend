@@ -1,9 +1,10 @@
 import React from 'react'
+import Navbar from '../components/Navbar'
 
 const Signup = () => {
   return (
     <div className=' text-white '>
-        <h1>signup</h1>
+        <Navbar/>
       
     </div>
   )
