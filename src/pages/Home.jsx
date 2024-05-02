@@ -1,5 +1,6 @@
 import React from 'react'
 import Card from "../components/core/Card"
+import BookingSection from "../components/core/BookingSection"
 import Navbar from "../components/Navbar"
 
 const Home = () => {
@@ -7,13 +8,16 @@ const Home = () => {
   return (
     <div>
         {/* section 1 */}
-        <div className='flex w-[100%] '>
+        <div className='flex w-[100%]  '>
           <Navbar/>
         </div>
-        <div className=' relative mx-auto flex flex-col w-[100%] text-white items-center justify-between'>
+        <div className='mx-auto flex flex-col w-[100%] text-white items-center justify-between'>
             
-            <div>
+            <div className=''>
                 <Card/>
+            </div>
+            <div>
+              <BookingSection/>
             </div>
            
 
