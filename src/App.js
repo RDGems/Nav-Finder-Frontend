@@ -5,6 +5,7 @@ import Home from "./pages/Home"
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Profile  from './pages/Profile';
+import Driver from './pages/Driver';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path='/'element= {<Home/>}/>
         <Route path='/Signup' element={<Signup/>}/>
         <Route path='/Login' element={<Login/>}/>
+        <Route path ="/driver" element ={<Driver/>}/>
         <Route path='/Profile' element={<Profile/>}/>
       </Routes>
     </div>
