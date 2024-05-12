@@ -1,5 +1,6 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
+import Navbar from '../components/Navbar';
+import { Link } from 'react-router-dom';
 const Signup = () => {
  function handleSubmit() {}
 
@@ -74,6 +75,7 @@ const Signup = () => {
           </div>
         </div>
 
+        <Link to='/Profile' >
         <button
           className="  bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900
            to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium 
@@ -83,6 +85,7 @@ const Signup = () => {
         >
           Sign up &rarr;
         </button>
+        </Link>
       </form>
     </div>
     </div>
