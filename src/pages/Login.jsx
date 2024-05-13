@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 import Navbar from '../components/Navbar'
 import useApi from '../utils/services/ApiServices'
-
+import { useNavigate } from 'react-router-dom'
+import AppContext from '../context/AppContext'
 
 const Login = () => {
+  const navigate = useNavigate();
+  let{setIsLogin,setAccessToken} = useContext(AppContext);
   const { post}=useApi();
   const[loginData,setLoginData] = useState({
     email:"",
@@ -21,7 +24,15 @@ const Login = () => {
     const url="/auth/login";
     event.preventDefault();
     const response = await post(url, loginData);  
-    console.log(response)
+    if(response.success === true){
+      setAccessToken = response.data.accessToken;
+      setIsLogin(true);
+      navigate('/');
+    }
+    else{
+    console.log(response);
+    }
+    
 }
 
 return (

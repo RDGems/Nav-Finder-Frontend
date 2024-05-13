@@ -1,8 +1,10 @@
 import { React, useState } from "react";
 import Navbar from "../components/Navbar";
 import useApi from '../utils/services/ApiServices'
-
+import { useNavigate } from "react-router-dom";
 const Signup = () => {
+
+  const navigate = useNavigate();
 
   const { post}=useApi();
   const [signupData,setSignupData] = useState({
@@ -25,6 +27,7 @@ const Signup = () => {
     event.preventDefault();
     const response = await post(url, signupData);  
     console.log(response)
+    navigate('/login');
 }
 
 

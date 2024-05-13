@@ -6,10 +6,11 @@ const AppContextProvider = ({children})=>{
     const [isLogin,setIsLogin] = useState(false);
     // const[baseUrl,setBaseUrl] = useState("https://localhost:8000/api/v1");
     // const baseUrl = "https://localhost:8000/api/v1";
+    const[accessToken,setAccessToken] = useState(null);
     const[currentUser,setCurrentUser] = useState(null);
 
     return(
-        <AppContext.Provider value={{isLogin,setIsLogin,currentUser,setCurrentUser}}>
+        <AppContext.Provider value={{isLogin,setIsLogin,currentUser,setCurrentUser,accessToken,setAccessToken}}>
             {children}
         </AppContext.Provider>
     )
