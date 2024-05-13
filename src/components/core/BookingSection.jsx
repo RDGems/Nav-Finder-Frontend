@@ -46,9 +46,9 @@ const BookingSection = () => {
     console.log(currentTab);
   }
   return (
-    <div className='bg-white mt-20 rounded-md'>
+    <div className='bg-white mt-20 rounded-md  '>
       
-        <div className='relative flex flex-row gap-10 bg-white text-gray-500  px-14 rounded-md'>
+        <div className='relative w-fu flex flex-row gap-10 bg-white text-gray-500  px-14 rounded-md mb-[-80px] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] '>
           <div className=' flex'>
             {tabName.map((ele,index)=>{
               return(
@@ -72,9 +72,15 @@ const BookingSection = () => {
             })}
           </div>
         </div>
-        <div className='absolute w-[10%] h-[40%] bg-white'>
-
-        </div>
+        {/* <div className=' h-[30vh] w-[110%] bg-white flex text-red-950 '>
+          <div>
+            <form className=' flex w-[80vw] bg-rose-300 gap-10 h-[70%] justify-between items-center border rounded-md'>
+              <input type='text' placeholder='From' className='w-full h-10 px-10 rounded-md text-gray-500'></input>
+              <input type='text' placeholder='To' className='w-full h-10 px-10 rounded-md text-gray-500'></input>
+              <button type='submit' className='w-full h-10 px-10 rounded-md text-gray-500'>Search</button>
+            </form>
+          </div>
+        {/* </div>  */}
       
     </div>
   )

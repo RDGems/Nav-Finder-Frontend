@@ -2,6 +2,10 @@ import React from 'react'
 import Card from "../components/core/Card"
 import BookingSection from "../components/core/BookingSection"
 import Navbar from "../components/Navbar"
+import Footer from '../components/core/Footer'
+import TimeLine from '../components/core/TimeLine'
+import ReadingSection from '../components/core/ReadingSection'
+
 
 const Home = () => {
     
@@ -11,7 +15,7 @@ const Home = () => {
         <div className='flex w-[100%]  '>
           <Navbar/>
         </div>
-        <div className='mx-auto flex flex-col w-[100%] text-white items-center justify-between'>
+        <div className='flex flex-col text-white items-center justify-between'>
             
             <div className=''>
                 <Card/>
@@ -26,8 +30,16 @@ const Home = () => {
         {/* section 2 */}
 
         {/* section 3 */}
+        <TimeLine/>
 
         {/* section 4 footer */}
+        <div>
+          <ReadingSection/>
+        </div>
+        <div>
+          <Footer/>
+
+        </div>
       
     </div>
   )
