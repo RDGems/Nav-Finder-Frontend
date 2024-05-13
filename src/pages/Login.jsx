@@ -1,12 +1,16 @@
 import React, { useState,useContext } from 'react'
 import Navbar from '../components/Navbar'
 import useApi from '../utils/services/ApiServices'
-import { useNavigate } from 'react-router-dom'
 import AppContext from '../context/AppContext'
+import ModalContext from '../context/ModalContext'
+import { Modal } from "../components/modals/Modal";
+import { OnBoardingModal } from "../components/modals/OnBoardingModal";
+
 
 const Login = () => {
-  const navigate = useNavigate();
   let{setIsLogin,setAccessToken} = useContext(AppContext);
+  let{openOnBoardingModal,setOpenOnBoardingModal} = useContext(ModalContext);
+
   const { post}=useApi();
   const[loginData,setLoginData] = useState({
     email:"",
@@ -25,9 +29,12 @@ const Login = () => {
     event.preventDefault();
     const response = await post(url, loginData);  
     if(response.success === true){
-      setAccessToken = response.data.accessToken;
+      setAccessToken(response.data.accessToken);
+      console.log(response.data.isOnboarded)
+      if(response.data.isOnboarded === false){
+        setOpenOnBoardingModal(true);
+      }
       setIsLogin(true);
-      navigate('/');
     }
     else{
     console.log(response);
@@ -94,6 +101,9 @@ return (
       
     </form>
   </div>
+  <Modal open={openOnBoardingModal} setOpen={setOpenOnBoardingModal}  >
+      <OnBoardingModal setOpen={setOpenOnBoardingModal}></OnBoardingModal>
+      </Modal>
   </div>
 );
 }

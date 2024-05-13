@@ -6,6 +6,7 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Profile  from './pages/Profile';
 import AppContextProvider from './context/AppContextProvider';
+import ModalContextProvider from './context/ModalContextProvider';
 import Driver from './pages/Driver'
 import OnBoarding from './pages/OnBoarding';
 
@@ -13,11 +14,12 @@ import OnBoarding from './pages/OnBoarding';
 
 function App() {
 
-  
+
   return (
     <AppContextProvider>
+      <ModalContextProvider>
     <div className=" w-screen min-h-screen bg-black flex flex-col font-inter">
-      
+
       <Routes>
         <Route path='/'element= {<Home/>}/>
         <Route path='/Signup' element={<Signup/>}/>
@@ -26,7 +28,8 @@ function App() {
         <Route path='/Profile' element={<Profile/>}/>
         <Route path='/onBoarding' element={<OnBoarding/>}/>
       </Routes>
-    </div>
+    </div>    
+    </ModalContextProvider>
     </AppContextProvider>
   );
 }
