@@ -67,7 +67,7 @@ const Profile = () => {
                   <p className="gap-5 m-auto "> +91 8657464565</p>
                 </div>
                 <div className="flex flex-row ml-28 mt-10 bg-black h-[50px] w-[350px] text-white text-xl rounded-lg">
-                  <p className="font-bold text-blue-950 m-auto">
+                  <p className="font-bold text-white m-auto">
                     Date of Birth :
                   </p>
                   <p className="gap-5 m-auto "> +91 8657464565</p>

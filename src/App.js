@@ -5,9 +5,15 @@ import Home from "./pages/Home"
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Profile  from './pages/Profile';
+import AppContextProvider from './context/AppContextProvider';
+
+
 
 function App() {
+
+  
   return (
+    <AppContextProvider>
     <div className=" w-screen min-h-screen bg-black flex flex-col font-inter">
       
       <Routes>
@@ -17,6 +23,7 @@ function App() {
         <Route path='/Profile' element={<Profile/>}/>
       </Routes>
     </div>
+    </AppContextProvider>
   );
 }
 
