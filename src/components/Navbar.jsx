@@ -3,18 +3,41 @@ import { Link } from "react-router-dom";
 import Logo from "../assests/images/Black and Cyan Blue Simple Game Animated Logo(1).jpg";
 import { useContext } from "react";
 import AppContext from "../context/AppContext";
-import ModalContext from "../context/ModalContext";
+import useApi from '../utils/services/ApiServices'
+
 
 const Navbar = () => {
 
+  const {post} = useApi();
+  const { isLogin,setIsLogin,setAccessToken,accessToken } = useContext(AppContext);
 
-  const { isLogin } = useContext(AppContext);
-  const{setOpenLogoutModal} = useContext(ModalContext);
 
 
-  const logoutHandler = (event)=>{
+  const logoutHandler = async(event)=>{
+    const url="/auth/logout";
     event.preventDefault();
-    setOpenLogoutModal(true);
+    
+    try {
+      const response = await post(url,{},{
+        'Authorization':`Bearer ${accessToken}`
+      }); 
+      
+  
+      if(response.success === true){
+        setAccessToken('');
+        setIsLogin(false);
+        if(response.success === false){
+          console.log("Error in logout")
+        }
+        
+      }
+      else{
+      console.log(response);
+      }
+    } catch (error) {
+      console.log("Error in logout: -"+error)
+    }
+    
   }
 
   return (

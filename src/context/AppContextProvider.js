@@ -7,9 +7,10 @@ const AppContextProvider = ({children})=>{
     const[openLogoutModal,setOpenLogoutModal] = useState(false);
     const[accessToken,setAccessToken] = useState(null);
     const[currentUser,setCurrentUser] = useState(null);
+    const[emailForOtp,setEmailForOtp] = useState(null);
 
     return(
-        <AppContext.Provider value={{isLogin,setIsLogin,currentUser,setCurrentUser,accessToken,setAccessToken,openLogoutModal,setOpenLogoutModal}}>
+        <AppContext.Provider value={{isLogin,setIsLogin,currentUser,emailForOtp,setEmailForOtp,setCurrentUser,accessToken,setAccessToken,openLogoutModal,setOpenLogoutModal}}>
             {children}
         </AppContext.Provider>
     )

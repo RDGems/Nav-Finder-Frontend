@@ -10,7 +10,7 @@ export const OnBoardingModal = ({ setOpen }) => {
     navigate("/onBoarding");
     setOpen(false);
     
-   
+    
   };
   return (
     <div className="flex flex-col w-[30vw] mx-auto justify-center items-center  ">
