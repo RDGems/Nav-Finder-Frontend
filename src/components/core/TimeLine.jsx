@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const TimeLine = () => {
   return (
@@ -13,7 +14,7 @@ const TimeLine = () => {
                         <input type='text' className=' w-72 border-2 border-gray-300 rounded-md px-2 py-1' placeholder='From' />
                         <p className=' font-semibold text-2xl '>To</p>
                             <input type='text' className=' w-72 border-2 border-gray-300 rounded-md px-2 py-1' placeholder='Destination' />
-                            <button className='bg-slate-800 p-2  hover:bg-black  text-white rounded-md px-2 py-1'>Search</button>
+                            <button className='bg-slate-800 p-2  hover:bg-black  text-white rounded-md px-2 py-1'><Link to='/ride'>Search</Link></button>
                         </form>
                         
 

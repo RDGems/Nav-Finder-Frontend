@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import Navbar from '../components/Navbar'
 import { FaIndianRupeeSign } from "react-icons/fa6";
-import {useJsApiLoader ,GoogleMap} from "@react-google-maps/api"
+import {useJsApiLoader ,GoogleMap,Marker,Autocomplete,DirectionsRenderer, } from "@react-google-maps/api"
 import car from "../assests/images/City driver.gif"
+// const google = window.google;
+const google = window.google = window.google ? window.google : {}
+
 
 // import {APIProvider, Map, Marker} from '@vis.gl/react-google-maps';
 
@@ -31,28 +34,71 @@ const Ride = () => {
 
     const {isLoaded} = useJsApiLoader({
         id: "google-map-script",
-        googleMapsApiKey:"AIzaSyAmklv2wjfdYvXPvGnoTo6LcDlZ2Ix3JgU"
+        googleMapsApiKey:"AIzaSyAmklv2wjfdYvXPvGnoTo6LcDlZ2Ix3JgU",
+        libraries:['places'],
+
     })
+
+    const [map,setMap]=useState(/** @type google.maps.map */ (null));
+    const [distance,setDistance]=useState(' ')
+    const [destinationResponse,setDestinationResponse]=useState(null)
+    const [duration,setDuration]=useState(' ')
+
+    const originRef=useRef()
+    const destinationRef=useRef()
+
     if (!isLoaded) {
         return <div className='text-white text-4xl'>Loading...</div>
     }
+
+    async function calculate(){
+        if(originRef.current.value==='' || destinationRef.current.value===' '){
+            return
+        }
+        const directionService=new google.maps.DirectionsService();
+        const result=await directionService.route({
+            origin:originRef.current.value,
+            destination:destinationRef.current.value,
+            travelMode:google.maps.TravelMode.DRIVING,
+            
+        })
+        setDestinationResponse(result);
+        setDistance(result.routes[0].legs[0].distance.text)
+        setDuration(result.routes[0].legs[0].duration.text)
+        console.log(result)
+
+    }
+
+    function clearRoute(){
+        setDestinationResponse(null)
+        setDistance('')
+        setDuration('')
+        originRef.current.value=" "
+        destinationRef.current.value=" "
+    }
+
   return (
    <div>
     <div>
         <Navbar/>
     </div>
     <div className=' flex mt-10  px-[10%] gap-10  '>
-        <div className=' w-[25%] p-5  h-72 flex flex-col text-rose-900 border-2 rounded-md '>
-            <h1 className=' text-white font-bold text-4xl my-6'>Get A Ride</h1>
-            <form className='flex flex-col text-white gap-4'>
-                <input type='text' placeholder='From' className='border-2 border-gray-400 p-2 rounded-md'/>
-                <input type='text' placeholder='To' className='border-2 border-gray-400 p-2 rounded-md'/>
-                <button className='bg-slate-800 p-2 rounded-md font-semibold text-xl hover:bg-black '>Search</button>
+        <div className=' w-[25%] p-5 h-96 flex flex-col text-rose-900 border-2 rounded-md '>
+            <h1 className=' text-white font-bold text-4xl my-6' >Get A Ride</h1>
+            <div className='flex flex-col text-white gap-4'>
+                <Autocomplete>
+                    <input type='text' placeholder='From' className='border-2 border-gray-400 p-2 rounded-md text-slate-800 w-full' ref={originRef} onClick={()=>map.panTo(center)}/>
+                </Autocomplete>
+                <Autocomplete>
+                    <input type='text' placeholder='To' className='border-2 border-gray-400 p-2 rounded-md text-slate-800 w-full' ref={destinationRef}/>
+                </Autocomplete>
+                <button className='bg-slate-800 p-2 rounded-md font-semibold text-xl hover:bg-black ' onClick={calculate}>Search</button>
+                <button className='bg-slate-800 p-2 rounded-md font-semibold text-xl hover:bg-black ' onClick={clearRoute}>clear</button>
                 {/* <input type='text' placeholder='Date' className='border-2 border-gray-400 p-2 rounded-md'/>
                 <input type='text' placeholder='Time' className='border-2 border-gray-400 p-2 rounded-md'/>
                 <input type='text' placeholder='Seats' className='border-2 border-gray-400 p-2 rounded-md'/> */}
                 {/* <input type='text' placeholder='Price' className='border-2 border-gray-400 p-2 rounded-md'/> */}
-            </form>
+            </div>
 
         </div>
         <div className='w-[40%]'>
@@ -61,14 +107,18 @@ const Ride = () => {
                     return(
                         <div key={index} className=' bg-white border-2 rounded-md flex justify-between mb-5'>
                             <div className='flex items-center font-semibold gap-4'>
-                            <img src={ele.img} className='w-20 h-20 object-cover'/>
+                            <img src={ele.img} className='w-20 h-20 object-cover' alt='img'/>
                             <div className='flex flex-col'>
                                 <h1 className='text-black text-xl font-bold'>{ele.Name}</h1>
                                 <p className='text-black text-sm'>{ele.Description}</p>
                             </div>
 
                             </div>
-                            <h1 className='flex px-4 text-black text-2xl font-bold justify-center items-center'><FaIndianRupeeSign className=' h-5 px-0'/>{ele.price}</h1>
+                            <h1 className='flex px-4 text-black text-2xl font-bold justify-center items-center'><FaIndianRupeeSign className=' h-5 px-0' />
+                            
+                            {ele.price}</h1>
+                            
+
                         </div>
                     )
 
@@ -87,7 +137,14 @@ const Ride = () => {
                     rotateControl:false,
                     scaleControl:false,
                     zoomControl:false,
+                }}
+                
+                onLoad={map=>{
+                    setMap(map)
                 }}>
+                    <Marker position={center}/>  
+                    {destinationResponse&&<DirectionsRenderer directions={destinationResponse}/>}   
+                    {/* <Marker position={{let:28.111,log:78.18}}/>           */}
                 </GoogleMap>
 
         </div>

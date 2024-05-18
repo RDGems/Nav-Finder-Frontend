@@ -12,40 +12,34 @@ import earth from "../../assests/images/earth.png"
 const Footer = () => {
   return (
    <div>
-    <div className='h-screen w-[75%] mt-[10%] mx-auto bg-black text-white'>
+    <div className='h-auto  px-[10%] my-[4%] bg-black text-white'>
         <div className=' text-2xl text-white font-semibold'>
             NavFinder
         </div>
-        <div className=' mt-6 text-3xs'>
+        <div className=' mt-4 text-3xs'>
         Visit Help Center
         </div>
-        <div className=' flex gap-36 mt-20'>
+        <div className=' flex gap-36 mt-14'>
             <div className='text-white font-semibold text-2xl'>
                 <Link to='/about'>
                     About Us
                 </Link>
             </div>
             <div className='text-white font-semibold text-2xl'>
-                Product
-                <div className=' flex flex-col font-normal text-xs gap-2 mt-5'>
+                <Link to='/contact'>
+                    Contact Us
+                </Link>
+            </div>
+            <div className='text-white font-semibold text-2xl'>
                     <Link to='/driver'>
                         Driver
                     </Link>
-                    <Link to='/ride'>
-                        Ride
-                    </Link>
-                </div>
             </div>
             <div className='text-white font-semibold text-2xl'>
-                Product
-                <div className=' flex flex-col font-normal text-xs gap-2 mt-5'>
-                    <Link to='/Signup'>
-                    Reserve
+                    <Link to='/ride'>
+                    Ride
                     </Link>
-                    <Link to='/'>
-                        cab
-                    </Link>
-                </div>
+                    
             </div>
             
         </div>

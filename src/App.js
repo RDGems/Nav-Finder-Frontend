@@ -11,6 +11,7 @@ import Ride from './pages/Ride';
 import ModalContextProvider from './context/ModalContextProvider';
 // import Driver from './pages/Driver'
 import OnBoarding from './pages/OnBoarding';
+import DriverForm from './pages/DriverForm';
 
 
 
@@ -30,6 +31,7 @@ function App() {
         <Route path ="/Ride" element ={<Ride/>}/>
         <Route path='/Profile' element={<Profile/>}/>
         <Route path='/onBoarding' element={<OnBoarding/>}/>
+        <Route path='/DriverForm' element={<DriverForm/>}/>
       </Routes>
     </div>    
     </ModalContextProvider>

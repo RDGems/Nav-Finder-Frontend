@@ -2,134 +2,99 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import image from "../assests/images/profile.png";
 import { Link } from "react-router-dom";
+import { CgProfile } from "react-icons/cg";
+import { FaGreaterThan } from "react-icons/fa";
 const Profile = () => {
   return (
     <div>
-      <div>
-        <Navbar></Navbar>
+      <div className=" text-3xl text-white m-6 font-bold">
+        NavFinder Account
       </div>
-      <div className=" flex  h-screen w-[100%] ">
-        <div className="flex flex-col bg-white w-[80vw] h-auto mx-auto rounded-3xl mt-5 mb-5">
-          <div className="flex flex-row ">
-            <div className="  mt-5 ml-10 text-center  w-[150px] h-[130px] bg-black rounded-3xl ">
-              <img
-                className=" rounded-full w-[140px] h-[125px] m-auto"
-                src={image}
-                alt="Profile"
-              />
-              <div>
-                <p className="font-bold text-black m-auto mt-5 text-2xl">
-                  Abhay Garg
-                </p>
-              </div>
+      <div className=" pl-[32%] mb-20  ">
+      <div className="flex flex-col  border-0 border-neutral-600 rounded-md w-[50%] h-auto shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)]">
+        <h1 className=" text-2xl text-white font-semibold m-5">Account Info</h1>
+        <div className=" flex flex-col m-6 mt-0 text-white ">
+        <CgProfile  className=" h-20 w-20 items-center"/>
+        <div className=" flex flex-col text-white text-xl my-5">
+          User Name
+          {/* <Link to="/editprofile" className=" rounded-md w-full my-2 border-2  border-neutral-600 hover:border-0 translate-x-all duration-50 ">
+          <butoon className='m-1 text-[15px] text-gray-400 flex justify-between items-center  '>
+            Abhinandan
+            <FaGreaterThan />
+          </butoon></Link> */}
+          <input type="text" placeholder="Abhinandan" className=" bg-black rounded-md w-full my-2 border-2 text-[15px] p-1 flex justify-center items-center border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 "></input>
+
+        </div>
+        <div className=" flex flex-col text-white text-xl" >
+          Email
+          <input type="text" placeholder="Abhinandan@gmail.com" className=" bg-black rounded-md w-full my-2 border-2 text-[15px] p-1 flex justify-center items-center border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 "></input>
+        </div>
+        <div className="flex justify-between mt-5">
+        <div className=" flex flex-col text-white text-xl" >
+          Mobile Number
+          <input type="text" placeholder="7060504030" className=" bg-black rounded-md w-full my-2 border-2 text-[15px] p-1 flex justify-center items-center border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 "></input>
+        </div>
+        <div className=" flex flex-col text-white text-xl" >
+          DOB
+          <input type="date" placeholder="11/09/2002" className=" bg-black rounded-md w-full my-2 border-2 text-[15px] p-1 flex justify-center items-center border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 "></input>
+        </div>
+        </div>
+        <h1 className="text-xl mt-5">Address</h1>
+        <div className="flex flex-col justify-between mt-2 border-2 p-2 gap-2 rounded-md border-neutral-600 ">
+          <div className=" flex justify-between">
+            <div className=" flex flex-col text-white text-xl" >
+              Street
+            <input type="text" placeholder="7060504030" className=" bg-black rounded-md w-full my-2 border-2 text-[15px] p-1 flex justify-center items-center border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 "></input>
+          </div>
+          <div className=" flex flex-col text-white text-xl" >
+            Landmark
+            <input type="text" placeholder="7060504030" className=" bg-black rounded-md w-full my-2 border-2 text-[15px] p-1 flex justify-center items-center border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 "></input>
+          </div>
+          </div>
+          <div className=" flex justify-between gap-2">
+            <div className=" flex flex-col text-white text-xl" >
+              City
+              <input type="text" placeholder="Modinagar" className=" bg-black rounded-md w-full my-2 border-2 text-[15px] p-1 flex justify-center items-center border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 "></input>
             </div>
-            <div className="flex flex-row ml-28 mt-16 bg-black h-[50px] w-[350px] text-white text-xl rounded-lg">
-              <p className="font-bold text-white m-auto">User Name :</p>
-              <p className="gap-5 m-auto "> AbhayGARG445</p>
+            <div className=" flex flex-col text-white text-xl" >
+              Postal Code
+              <input type="text" max={6} placeholder="201204" className=" bg-black rounded-md w-full my-2 border-2 text-[15px] p-1 flex justify-center items-center border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 "></input>
             </div>
-            <div className="flex flex-row ml-28 mt-16 bg-black h-[50px] w-[350px] text-white text-xl rounded-lg">
-              <p className="font-bold text-white m-auto">Email :</p>
-              <p className="gap-5 m-auto "> abhay@gmail.com</p>
+            <div className=" flex flex-col text-white text-xl" >
+              Country
+              <input type="text" max={6} placeholder="India" className=" bg-black rounded-md w-full my-2 border-2 text-[15px] p-1 flex justify-center items-center border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 "></input>
+            </div>
+
+          </div>
+          
+        
+        
+        </div>
+        <div className="my-5 flex justify-between">
+            <div className=" flex flex-col text-white text-xl" >
+              Status
+              <input type="text" placeholder="Active" className=" bg-black rounded-md w-full my-2 border-2 text-[15px] p-1 flex justify-center items-center border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 "></input>
+            </div>
+            <div className=" flex flex-col text-white text-xl" >
+              Gender
+              <input type="text" placeholder="male" className=" bg-black rounded-md w-full my-2 border-2 text-[15px] p-1 flex justify-center items-center border-neutral-600 hover:border-2 hover:border-black "></input>
             </div>
           </div>
-
-          <div className=" flex flex-row ">
-            <div className="mt-48 ml-10  w-60 flex flex-col">
-              <div className="bg-black text-white h-8 w-[10vw]  mx-auto mb-5 rounded-lg hover:bg-gray-800 ">
-                <Link className="m-auto">
-                  <button className="mx-3 mt-1"> Change Password</button>
-                </Link>
-              </div>
-              <div className="bg-black text-white h-8 w-[10vw]  mx-auto mb-5 rounded-lg hover:bg-gray-800 ">
-                <Link className="m-auto">
-                  <button className="mx-3 mt-1"> Update Profile</button>
-                </Link>
-              </div>
-              <div className= " text-black  w-[10vw]     mx-auto mb-5 rounded-lg">
-                <p className="text-2xl" font-bold>Wanna Join Us?</p>
-                <div className="bg-black text-white h-8 w-[10vw] mt-5  mx-auto mb-5 rounded-lg hover:bg-gray-800 ">
-                <Link className="m-auto">
-                  <button className="mx-3 mt-1"> Rent Your Vehicle</button>
-                </Link>
-              </div>
-              <div className="bg-black text-white h-8 w-[10vw]  mx-auto mb-5 rounded-lg hover:bg-gray-800 ">
-                <Link className="m-auto">
-                  <button className="mx-3 mt-1"> As a Driver</button>
-                </Link>
-              </div>
-              </div>
+        <div className="my-5 flex justify-between">
+            <div className=" flex flex-col text-white text-xl" >
+              <button className=" border-2 rounded-md p-2  border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 "><Link to='/change-Password'>Change Password</Link></button>
+            </div>
+            <div className=" flex flex-col text-white text-xl" >
+              <button className=" border-2 rounded-md p-2  border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 "><Link to='/update -Password'>Update Password</Link></button>
             </div>
             
-            <div className="ml-[20px]">
-              <div className="flex flex-row ">
-                <div className="flex flex-row  mt-10 bg-black h-[50px] w-[350px] text-white text-xl rounded-lg">
-                  <p className="font-bold text-white m-auto">Mobile No. :</p>
-                  <p className="gap-5 m-auto "> +91 8657464565</p>
-                </div>
-                <div className="flex flex-row ml-28 mt-10 bg-black h-[50px] w-[350px] text-white text-xl rounded-lg">
-                  <p className="font-bold text-white m-auto">
-                    Date of Birth :
-                  </p>
-                  <p className="gap-5 m-auto "> +91 8657464565</p>
-                </div>
-              </div>
-
-              {/* Address */}
-              <div className="flex flex-col  mt-10 bg-black h-[270px] w-[813px] text-white text-xl rounded-lg">
-                <div className="font-bold  h-[20px] text-white ml-6 mt-3 text-2xl">
-                  <p>Address :</p>
-                </div>
-                <div className="flex flex-row mt-8 m-auto gap-5 ">
-                  <div className="m-auto">
-                    <div className="flex flex-row m-auto  h-auto w-auto text-white  rounded-lg">
-                      <p className="font-bold text-white m-auto">Street:</p>
-                      <p className="gap-5 m-auto ">
-                        {" "}
-                        Mohalla Mahajanan, Chungi No. 3,{" "}
-                      </p>
-                    </div>
-                    <div className="flex flex-row  mt-8 h-auto w-auto text-white  rounded-lg">
-                      <p className="font-bold text-white m-auto">Landmark:</p>
-                      <p className="gap-5 m-auto ">RAwli Road </p>
-                    </div>
-                    <div className="flex flex-row  mt-8 h-auto w-auto text-white  rounded-lg">
-                      <p className="font-bold text-white m-auto">City:</p>
-                      <p className="gap-5 m-auto ">Ghaziabad</p>
-                    </div>
-                  </div>
-                  <div className="ml-10">
-                    <div className="flex flex-row  m-auto  h-auto w-auto  text-white  rounded-lg">
-                      <p className="font-bold text-white m-auto">
-                        Postal Code:
-                      </p>
-                      <p className="gap-5 m-auto "> Muradnagar</p>
-                    </div>
-                    <div className="flex flex-row   mt-8 h-auto w-auto text-white  rounded-lg">
-                      <p className="font-bold text-white m-auto">State:</p>
-                      <p className="gap-5 m-auto ">Chungi No. 3 </p>
-                    </div>
-                    <div className="flex flex-row   mt-8 h-auto w-auto text-white  rounded-lg">
-                      <p className="font-bold text-white m-auto">Country:</p>
-                      <p className="gap-5 m-auto ">Ghaziabad</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-row">
-                <div className="flex flex-row  px-10 mt-10 bg-black h-[50px] w-[250px] text-white text-xl rounded-lg">
-                  <p className="font-bold text-white m-auto">Gender :</p>
-                  <p className="gap-5 m-auto "> Male</p>
-                </div>
-                <div className="flex flex-row  ml-[210px] px-10 mt-10 bg-black h-[50px] w-[250px] text-white text-xl rounded-lg">
-                  <p className="font-bold text-white m-auto">Status :</p>
-                  <p className="gap-5 m-auto "> Active</p>
-                </div>
-              </div>
-            </div>
           </div>
+        
         </div>
+        
       </div>
+      </div>
+     
     </div>
   );
 };
