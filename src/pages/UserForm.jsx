@@ -1,14 +1,15 @@
-import { React, useState } from "react";
+import { React, useState,useContext } from "react";
 import Navbar from "../components/Navbar";
 import useApi from "../utils/services/ApiServices";
 import { useNavigate } from "react-router-dom";
+import AppContext from "../context/AppContext";
 
 
-const OnBoarding = () => {
-
+const UserForm = ({formFor}) => {
+  const { accessToken } = useContext(AppContext);
   const navigate = useNavigate();
-  const { post } = useApi();
-  const [OnBoardingData, setOnBoardingData] = useState({
+  const { post,put } = useApi();
+  const [userFormData, setUserFormData] = useState({
     file:undefined,
     firstName: "",
     lastName: "",
@@ -56,44 +57,66 @@ const OnBoarding = () => {
   };
 
   const handleDataFormat = () => {
-    OnBoardingData.firstName = formData.firstName;
-    OnBoardingData.lastName = formData.lastName;
-    OnBoardingData.mobile = Number(formData.mobile);
-    OnBoardingData.dob = formData.dob;
-    OnBoardingData.gender = formData.gender;
-    OnBoardingData.securityQuestions.answer1 = formData.answer1;
-    OnBoardingData.address.landmark = formData.landmark;
-    OnBoardingData.address.street = formData.street;
-    OnBoardingData.address.city = formData.city;
-    OnBoardingData.address.state = formData.state;
-    OnBoardingData.address.postalCode = formData.postalCode;
-    OnBoardingData.address.country = formData.country;
+    userFormData.firstName = formData.firstName;
+    userFormData.lastName = formData.lastName;
+    userFormData.mobile = Number(formData.mobile);
+    userFormData.dob = formData.dob;
+    userFormData.gender = formData.gender;
+    userFormData.securityQuestions.answer1 = formData.answer1;
+    userFormData.address.landmark = formData.landmark;
+    userFormData.address.street = formData.street;
+    userFormData.address.city = formData.city;
+    userFormData.address.state = formData.state;
+    userFormData.address.postalCode = formData.postalCode;
+    userFormData.address.country = formData.country;
   };
 
   const handleSubmit = async(event) => {
     event.preventDefault();
     handleDataFormat();
-    console.log(OnBoardingData);
-    const url = "/auth/OnBoarding";
-    const response = await post(url, OnBoardingData,{
+    // console.log(userFormData);
+    if(formFor==='updateDetail'){
+      const url = "auth/editAccount";
+    try {
+      
+    const response = await put(url, userFormData,{
         'Content-Type': 'multipart/form-data',
+        'Authorization':`Bearer ${accessToken}`
+    });
+    // console.log(response);
+    navigate("/profile");
+    } catch (error) {
+      console.log("Error on onboarding: -- "+error)
+    }
+    }
+    else{
+      const url = "/auth/OnBoarding";
+    try {
+      
+    const response = await post(url, userFormData,{
+        'Content-Type': 'multipart/form-data',
+        'Authorization':`Bearer ${accessToken}`
     });
     console.log(response);
     navigate("/");
+    } catch (error) {
+      console.log("Error on onboarding: --"+error)
+    }
+    }
   };
 
 
   const handleFileUpload = (event) => {
     event.preventDefault();
     const file = event.target.files[0];
-    OnBoardingData.file = file;
+    userFormData.file = file;
   };
 
   return (
     <div>
       <Navbar></Navbar>
-      <div className="mx-auto flex flex-col w-[50%]   border-2 border-neutral-600  items-center justify-between mt-[4%] max-w-md   rounded-none md:rounded-2xl p-4 md:p-8  bg-black shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] ">
-        <h2 className="font-bold text-xl text-neutral-200 ">User Details</h2>
+      <div className="mx-auto flex flex-col w-[50%]   border-2 border-neutral-600  items-center justify-between mt-[4%] max-w-md   rounded-none md:rounded-2xl p-4 md:p-8  bg-black ">
+        <h2 className="font-bold text-xl text-neutral-200 ">{(formFor==='updateDetail')?'Update Details':'User Details'}</h2>
 
         <form className="my-8" onSubmit={handleSubmit}>
           <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
@@ -686,7 +709,7 @@ const OnBoarding = () => {
            dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
             type="submit"
           >
-            Complete &rarr;
+            {(formFor==='updateDetail')?'Update ':'OnBoard'} &rarr;
           </button>
         </form>
       </div>
@@ -694,4 +717,4 @@ const OnBoarding = () => {
   );
 };
 
-export default OnBoarding;
+export default UserForm;

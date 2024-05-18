@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 const Signup = () => {
 
   const navigate = useNavigate();
-
-  const { post}=useApi();
+  const[formError,setFormError] = useState();
+  const { post,error}=useApi();
   const [signupData,setSignupData] = useState({
     userName:"",
     email:"",
@@ -23,14 +23,30 @@ const Signup = () => {
  
   
   const handleSubmit=  async(event) => {
-    const url="/auth/signup";
     event.preventDefault();
-    try {
-      const response = await post(url, signupData);  
-    console.log(response)
-    navigate('/login');
-    } catch (error) {
+    setFormError(null)
+    const url="/auth/signup";
+    try{
+      if(!signupData.userName || !signupData.email || !signupData.password){
+        setFormError("Please fill the details")
+      }
       
+      const response = await post(url, signupData);  
+      if(response)
+        {if(response.success === true){
+        navigate('/login');
+      }
+      else if(response.success === false){
+        setFormError(response.data.message)
+      }}
+     if( !signupData.userName && !signupData.email && !signupData.password && error){
+        
+        setFormError("Please fill the details correctly..")
+      }
+      
+    }catch(err){
+      
+      console.log(err);
     }
 }
 
@@ -104,6 +120,9 @@ const Signup = () => {
               />
             </div>
           </div>
+          <span className="text-neutral-300 text-sm max-w-sm mt-2 " >
+            {formError}
+          </span>
 
           <button
             className="  bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900

@@ -8,10 +8,16 @@ import Profile  from './pages/Profile';
 import AppContextProvider from './context/AppContextProvider';
 import Driver from './pages/Driver';
 import Ride from './pages/Ride';
-import ModalContextProvider from './context/ModalContextProvider';
+
+import ChangePassword from './pages/ChangePassword';
+import VerifyEmail from './pages/VerifyEmail';
+import VerifyOtp from './pages/VerifyOtp';
+import CancelRide from './pages/CancelRide';
 // import Driver from './pages/Driver'
-import OnBoarding from './pages/OnBoarding';
-import DriverForm from './pages/DriverForm';
+import ResetPassword from './pages/ResetPassword';
+import UserForm from './pages/UserForm';
+import ModalContextProvider from './context/ModalContextProvider';
+
 
 
 
@@ -30,8 +36,14 @@ function App() {
         <Route path ="/driver" element ={<Driver/>}/>
         <Route path ="/Ride" element ={<Ride/>}/>
         <Route path='/Profile' element={<Profile/>}/>
-        <Route path='/onBoarding' element={<OnBoarding/>}/>
-        <Route path='/DriverForm' element={<DriverForm/>}/>
+        <Route path='/onBoarding' element={<UserForm />}/>
+        <Route path='/changePassword' element={<ChangePassword/>}/>
+        <Route path='/resetPassword' element={<ResetPassword/>}/>
+        <Route path='/verifyEmail' element={<VerifyEmail/>}/>
+        <Route path='/verifyOtp' element={<VerifyOtp/>}/>
+        <Route path='/updateUser' element={<UserForm formFor={'updateDetail'}/>}/>
+        <Route path='/cancelRide' element={<CancelRide />}/>
+
       </Routes>
     </div>    
     </ModalContextProvider>

@@ -13,6 +13,7 @@ const useApi = () => {
     baseURL: BASE_API_URL,
     headers: {
       'Content-Type': 'application/json',
+      'withCredentials': true
     },
   });
 
@@ -37,7 +38,21 @@ const useApi = () => {
       const response = await api.post(url, data, { headers: { ...api.defaults.headers, ...customHeaders } });
       return response.data;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
+      setError(error);
+      // throw error;
+    } finally {
+      setLoading(false);
+    }
+  }, [api]);
+  const put = useCallback(async (url, data = {}, customHeaders = {}) => {
+    setError(null);
+    setLoading(true);
+    try {
+      const response = await api.put(url, data, { headers: { ...api.defaults.headers, ...customHeaders } });
+      return response.data;
+    } catch (error) {
+        // console.log(error);
       setError(error);
       throw error;
     } finally {
@@ -45,7 +60,7 @@ const useApi = () => {
     }
   }, [api]);
 
-  return { loading, error, get, post };
+  return { loading, error, get, post,put };
 };
 
 export default useApi;
