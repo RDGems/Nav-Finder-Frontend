@@ -17,6 +17,13 @@ import CancelRide from './pages/CancelRide';
 import ResetPassword from './pages/ResetPassword';
 import UserForm from './pages/UserForm';
 import ModalContextProvider from './context/ModalContextProvider';
+import DriverForm from './pages/DriverForm';
+import DriverLicense from './components/driverDetails/DriverLicense';
+import ProfilePhoto from './components/driverDetails/ProfilePhoto';
+import AadharCard from './components/driverDetails/AadharCard';
+import PanCard from './components/driverDetails/PanCard';
+import VehicleInsurance from './components/driverDetails/VehicleInsurance';
+import VehiclePermit from './components/driverDetails/VehiclePermit';
 
 
 
@@ -33,8 +40,18 @@ function App() {
         <Route path='/'element= {<Home/>}/>
         <Route path='/Signup' element={<Signup/>}/>
         <Route path='/Login' element={<Login/>}/>
-        <Route path ="/driver" element ={<Driver/>}/>
+
         <Route path ="/Ride" element ={<Ride/>}/>
+        <Route path ="/driver" element ={<Driver/>}/>
+
+        <Route path ="/driverForm" element ={<DriverForm/>}/>
+        <Route path ="/DriverLicense" element ={<DriverLicense/>}/>
+        <Route path ="/ProfilePhoto" element ={<ProfilePhoto/>}/>
+        <Route path ="/AadharCard" element ={<AadharCard/>}/>
+        <Route path ="/PanCard" element ={<PanCard/>}/>
+        <Route path ="/VehicleInsurance" element ={<VehicleInsurance/>}/>
+        <Route path ="/VehiclePermit" element ={<VehiclePermit/>}/>
+
         <Route path='/Profile' element={<Profile/>}/>
         <Route path='/onBoarding' element={<UserForm />}/>
         <Route path='/changePassword' element={<ChangePassword/>}/>

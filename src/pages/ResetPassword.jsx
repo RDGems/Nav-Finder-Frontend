@@ -54,7 +54,7 @@ const ResetPassword = () => {
   return (
     <div>
       <Navbar></Navbar>
-      <div className="mx-auto flex flex-col w-[50%]   border-2 border-neutral-600  items-center justify-between mt-[4%] max-w-md   rounded-none md:rounded-2xl p-4 md:p-8  bg-black ">
+      <div className="mx-auto flex flex-col w-[50%]   border-2 border-neutral-600  items-center justify-between mt-[4%] max-w-md   rounded-none md:rounded-2xl p-4 md:p-8  bg-black shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] ">
         <h2 className="font-bold text-xl text-neutral-200 ">
           Reset Password
         </h2>

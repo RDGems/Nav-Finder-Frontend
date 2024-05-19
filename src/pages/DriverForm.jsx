@@ -1,4 +1,6 @@
 import React from 'react'
+import { FaGreaterThan } from "react-icons/fa6";
+import { Link } from 'react-router-dom';
 
 const DriverForm = () => {
   return (
@@ -17,26 +19,35 @@ const DriverForm = () => {
             </div >
 
             <div className=' my-10 flex flex-col gap-4 '>
-                <div className=' flex p-2 text-white font-semibold   border-2 rounded-md w-auto  border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 '>
-                    Driver License
+                <div className=' p-2 text-white font-semibold   border-2 rounded-md w-auto  border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 '>
+                   <Link to='/DriverLicense' className='justify-between items-center flex'>
+                        Driver License
+                        <FaGreaterThan />
+                    </Link>
                 </div>
-                <div className=' flex p-2 text-white font-semibold   border-2 rounded-md w-auto  border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 '>
+                <div className=' flex justify-between items-center p-2 text-white font-semibold   border-2 rounded-md w-auto  border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 '>
                     Profile Photo
+                    <FaGreaterThan />
                 </div>
-                <div className=' flex p-2 text-white font-semibold  border-2 rounded-md w-auto  border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 '>
+                <div className=' flex justify-between items-center p-2 text-white font-semibold  border-2 rounded-md w-auto  border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 '>
                     Aadhar Card
+                    <FaGreaterThan />
                 </div>
-                <div className=' flex p-2 text-white font-semibold  border-2 rounded-md w-auto  border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 '>
+                <div className=' flex justify-between items-center p-2 text-white font-semibold  border-2 rounded-md w-auto  border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 '>
                     Pan Card
+                    <FaGreaterThan />
                 </div>
-                <div className=' flex p-2 text-white font-semibold border-2 rounded-md w-auto  border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 '>
+                <div className=' flex justify-between items-center p-2 text-white font-semibold border-2 rounded-md w-auto  border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 '>
                 Vehicle Insurance
+                <FaGreaterThan />
                 </div>
-                <div className=' flex p-2 text-white font-semibold  border-2 rounded-md w-auto  border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 '>
+                <div className=' flex justify-between items-center p-2 text-white font-semibold  border-2 rounded-md w-auto  border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 '>
                 Registration Certificate
+                <FaGreaterThan />
                 </div>
-                <div className=' flex p-2 text-white font-semibold  border-2 rounded-md w-auto  border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 '>
+                <div className=' flex justify-between items-center p-2 text-white font-semibold  border-2 rounded-md w-auto  border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 '>
                     vehicle permit
+                    <FaGreaterThan />
                 </div>
             </div>
            </div>
