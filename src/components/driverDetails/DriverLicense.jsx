@@ -1,7 +1,36 @@
-import React from 'react'
+import { React, useState } from "react";
 import license from "../../assests/images/license.png"
+import useApi from "../../utils/services/ApiServices";
 
 const DriverLicense = () => {
+  const { post } = useApi();
+
+  const handleSubmit = async(event) => {
+    event.preventDefault();
+
+
+      const url = "driver/document/drivingLicence";
+    try {
+    const response = await post(url, {},{
+        'Content-Type': 'multipart/form-data',
+        'Authorization':`Bearer ${accessToken}`
+    });
+    console.log(response);
+    navigate("-1");
+    } catch (error) {
+      console.log("Error on submitting driver License: -- "+error)
+    }
+    
+  };
+
+
+  const handleFileUpload = (event) => {
+    event.preventDefault();
+    const file = event.target.files[0];
+    userFormData.file = file;
+  };
+
+
   return (
     <div>
         <div className=" text-3xl text-white m-6 font-bold">
