@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logo from "../assests/images/Black and Cyan Blue Simple Game Animated Logo(1).jpg";
+import Logo from "../assests/images/Logo.jpg";
 import { useContext } from "react";
 import AppContext from "../context/AppContext";
 import useApi from '../utils/services/ApiServices'
@@ -45,7 +45,7 @@ const Navbar = () => {
       {/* <div className='flex flex-row bg-slate-50 justify-evenly'> */}
       <div className="flex w-11/12 max-w-maxContent items-center justify-between mx-auto lg:flex-row flex-row">
         <Link to="/">
-          <img src={Logo} alt="" className="w-[100px] h-[10a0px]" />
+          <img src={Logo} alt="" className=" h-[80px]" />
         </Link>
 
         {isLogin ? (

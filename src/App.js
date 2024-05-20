@@ -13,6 +13,7 @@ import ChangePassword from './pages/ChangePassword';
 import VerifyEmail from './pages/VerifyEmail';
 import VerifyOtp from './pages/VerifyOtp';
 import CancelRide from './pages/CancelRide';
+import RideBooked from './pages/RideBooked';
 // import Driver from './pages/Driver'
 import ResetPassword from './pages/ResetPassword';
 import UserForm from './pages/UserForm';
@@ -60,6 +61,8 @@ function App() {
         <Route path='/verifyOtp' element={<VerifyOtp/>}/>
         <Route path='/updateUser' element={<UserForm formFor={'updateDetail'}/>}/>
         <Route path='/cancelRide' element={<CancelRide />}/>
+        <Route path='/RideBooked' element={<RideBooked />}/>
+
 
       </Routes>
     </div>    
