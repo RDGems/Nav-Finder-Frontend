@@ -1,84 +1,57 @@
 import { React, useState } from "react";
 import Navbar from "../components/Navbar";
-import useApi from '../utils/services/ApiServices'
-import { useNavigate } from "react-router-dom";
+import useApi from "../utils/services/ApiServices";
+import { useNavigate, useLocation } from "react-router-dom";
+import toast from "react-hot-toast";
+
 const ResetPassword = () => {
-
   const navigate = useNavigate();
-
-  const { post}=useApi();
-  const [resetPasswordData,setResetPasswordData] = useState({
-    email:'',
-    password:"",
-    
-  });
-
-  const handleChange = (event)=>{
-    event.preventDefault();
-    setResetPasswordData({
-      ...resetPasswordData,[event.target.name]:event.target.value
-    });
+  const location = useLocation();
+  let emailP = ''
+  if (location.state) {
+     emailP = location.state.email;
   }
   
- 
-  
-  const handleSubmit= async(event) => {
-    const url="auth/resetPassword";
+  const { post } = useApi();
+  const [resetPasswordData, setResetPasswordData] = useState({
+    email: emailP,
+    password: "",
+  });
+
+  const handleChange = (event) => {
     event.preventDefault();
-    
+    setResetPasswordData({
+      ...resetPasswordData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleSubmit = async (event) => {
+    const url = "auth/resetPassword";
+    event.preventDefault();
+
     try {
-      const response = await post(url,{
-        "email": resetPasswordData.email,
-        "password": resetPasswordData.password
-      }); 
-      
-  
-      if(response.success === true){
-            navigate('/login')
-        if(response.success === false){
-          console.log("Error in  Password Reset")
-        }
-        
-      }
-      else{
-    //   console.log(response);
+      const response = await post(url, {
+        email: resetPasswordData.email,
+        password: resetPasswordData.password,
+      });
+
+      toast.success(response.message);
+      if (response.success === true) {
+        navigate("/login");
       }
     } catch (error) {
-      console.log("Error in Password reset: -"+error)
+      toast.error(error.response.data.message);
     }
-}
-
-
-
+  };
 
   return (
     <div>
       <Navbar></Navbar>
       <div className="mx-auto flex flex-col w-[50%]   border-2 border-neutral-600  items-center justify-between mt-[4%] max-w-md   rounded-none md:rounded-2xl p-4 md:p-8  bg-black shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] ">
-        <h2 className="font-bold text-xl text-neutral-200 ">
-          Reset Password
-        </h2>
-        
-        <form className="my-8" onSubmit={handleSubmit}>
-          <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
-            <div className="flex flex-col space-y-2 w-full">
-              <label className="text-sm text-left font-medium text-white  leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Email ID
-              </label>
-              <input
-                className="flex h-10 w-full border-none bg-zinc-800 text-white  shadow-input rounded-md px-3 py-2 text-sm  placeholder:text-neutral-400  
-                         focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-neutral-400 
-                         disabled:cursor-not-allowed disabled:opacity-50 group-hover/input:shadow-none transition duration-400"
-                id="email"
-                name="email"
-                placeholder="Email"
-                value = {resetPasswordData.email}
-                onChange={handleChange}
-                type="text"
-              />
-            </div>
-          </div>
+        <h2 className="font-bold text-xl text-neutral-200 ">Reset Password</h2>
 
+        <form className="my-8" onSubmit={handleSubmit}>
           <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
             <div className="flex flex-col space-y-2 w-full">
               <label className="text-sm text-left font-medium text-white  leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
@@ -89,8 +62,8 @@ const ResetPassword = () => {
               focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-neutral-400 
               disabled:cursor-not-allowed disabled:opacity-50 group-hover/input:shadow-none transition duration-400"
                 id="password"
-                name='password'
-                value = {resetPasswordData.password}
+                name="password"
+                value={resetPasswordData.password}
                 onChange={handleChange}
                 placeholder="*************"
                 type="password"
@@ -98,7 +71,20 @@ const ResetPassword = () => {
             </div>
           </div>
 
-          
+          <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
+            <div className="flex flex-col space-y-2 w-full">
+              <label className="text-sm text-left font-medium text-white  leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Re-enter Password
+              </label>
+              <input
+                className="flex h-10 w-full border-none bg-zinc-800 text-white  shadow-input rounded-md px-3 py-2 text-sm  placeholder:text-neutral-400  
+              focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-neutral-400 
+              disabled:cursor-not-allowed disabled:opacity-50 group-hover/input:shadow-none transition duration-400"
+                placeholder="*************"
+                type="password"
+              />
+            </div>
+          </div>
 
           <button
             className="  bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900
@@ -106,8 +92,9 @@ const ResetPassword = () => {
            shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] 
            dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
             type="submit"
-            
-          >Reset Password &rarr;</button>
+          >
+            Reset Password &rarr;
+          </button>
         </form>
       </div>
     </div>

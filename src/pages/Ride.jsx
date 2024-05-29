@@ -1,6 +1,8 @@
-import React, { useRef, useState, useContext } from "react";
+import React, { useRef, useState, useContext ,useEffect} from "react";
 import Navbar from "../components/Navbar";
 import { FaIndianRupeeSign } from "react-icons/fa6";
+import toast from "react-hot-toast";
+
 import {
   useJsApiLoader,
   GoogleMap,
@@ -12,6 +14,7 @@ import car from "../assests/images/City driver.gif";
 import useApi from "../utils/services/ApiServices";
 import AppContext from "../context/AppContext";
 import Logo from "../assests/images/Black and Cyan Blue Simple Game Animated Logo(1).jpg";
+import { useNavigate } from "react-router-dom";
 
 // const google = window.google;
 const google = (window.google = window.google ? window.google : {});
@@ -44,10 +47,12 @@ const data = [
 ];
 
 const Ride = () => {
-  const { accessToken } = useContext(AppContext);
-
-  const { post, get } = useApi();
+  const navigate = useNavigate();
+  const { accessToken,isLogin } = useContext(AppContext);
+  const[ridesDetail,setRidesDetail]= useState();
+  const { post, get,error } = useApi();
   const [price, setPrice] = useState(0);
+  
 
   const checkoutHandler = async (ele) => {
     let url = "payments/checkout";
@@ -83,7 +88,7 @@ const Ride = () => {
               address: "Muradnagar",
             },
             theme: {
-              color: "#11198232",
+              color: "#000",
             },
           };
       
@@ -97,16 +102,13 @@ const Ride = () => {
         
     }
     
-    // if (response.success===true) {
-
-    // }
   };
 
   // const position = {lat: 61.2176, lng: -149.8997};
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyAmklv2wjfdYvXPvGnoTo6LcDlZ2Ix3JgU",
+    googleMapsApiKey: "AIzaSyC2GqpvPKsmomitPqiMK3XX9yA7hQynS_g",
     libraries: ["places"],
   });
 
@@ -136,9 +138,34 @@ const Ride = () => {
       travelMode: google.maps.TravelMode.DRIVING,
     });
     setDestinationResponse(result);
-    setDistance(result.routes[0].legs[0].distance.text);
-    setDuration(result.routes[0].legs[0].duration.text);
-    console.log(result);
+    setDistance((result.routes[0].legs[0].distance.value/1000));
+    setDuration((result.routes[0].legs[0].duration.value/60));
+    // console.log(result);
+
+    //fetch rides 
+
+    const url = 'finder/getAfterLocation'
+    try {
+      
+      const rides = await post(url, {
+        distance:(result.routes[0].legs[0].distance.value/1000),
+        travelTime:(result.routes[0].legs[0].duration.value/60)
+      },
+      {
+        Authorization: `Bearer ${accessToken}`,
+      })
+      if(rides.success===true){
+
+        setRidesDetail({
+          rides:rides.data
+        });
+        console.log(rides.data)
+      }
+    } catch (error) {
+      // toast.error(error);
+      console.log(error)
+    }
+
   }
 
   function clearRoute() {
@@ -194,7 +221,7 @@ const Ride = () => {
           </div>
         </div>
         <div className="w-[40%]">
-          {data.map((ele, index) => {
+          {ridesDetail?.rides && ridesDetail.rides.map((ele, index) => {
             return (
               <div
                 key={index}
@@ -212,14 +239,16 @@ const Ride = () => {
                     alt="img"
                   />
                   <div className="flex flex-col">
-                    <h1 className="text-black text-xl font-bold">{ele.Name}</h1>
-                    <p className="text-black text-sm">{ele.Description}</p>
+                    <h1 className="text-black text-xl font-bold">{ele.vehicleType}</h1>
+                    <p className="text-black text-sm">{ele.title}</p>
+                    <p className="text-black text-sm">Away - {ele.away}</p>
+
                   </div>
                 </div>
                 <h1 className="flex px-4 text-black text-2xl font-bold justify-center items-center">
                   <FaIndianRupeeSign className=" h-5 px-0" />
 
-                  {ele.price}
+                  {Math.round(ele.totalFare)}
                 </h1>
               </div>
             );

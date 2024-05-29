@@ -100,7 +100,7 @@ const Login = () => {
             disabled:cursor-not-allowed disabled:opacity-50 group-hover/input:shadow-none transition duration-400"
                 id="password"
                 name="password"
-                value="+91 8923456742"
+                value="+91 7303192567"
                 // onChange={handleChange}
                 // placeholder="7060280050"
                 type="text"

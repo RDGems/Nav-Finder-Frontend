@@ -4,12 +4,12 @@ import ModalContext from './ModalContext';
 
 const ModalContextProvider = ({children})=>{
     
-    const[openLogoutModal,setOpenLogoutModal] = useState(false);
+    
     const[openOnBoardingModal,setOpenOnBoardingModal] = useState(false);
 
 
     return(
-        <ModalContext.Provider value={{openLogoutModal,setOpenLogoutModal,openOnBoardingModal,setOpenOnBoardingModal}}>
+        <ModalContext.Provider value={{openOnBoardingModal,setOpenOnBoardingModal}}>
             {children}
         </ModalContext.Provider>
     )

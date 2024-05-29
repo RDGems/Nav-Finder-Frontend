@@ -4,12 +4,14 @@ import Logo from "../assests/images/Logo.jpg";
 import { useContext } from "react";
 import AppContext from "../context/AppContext";
 import useApi from '../utils/services/ApiServices'
+import toast from "react-hot-toast";
+
 
 
 const Navbar = () => {
 
   const {post} = useApi();
-  const { isLogin,setIsLogin,setAccessToken,accessToken } = useContext(AppContext);
+  const { isLogin,setIsLogin,setAccessToken,accessToken,setCurrentUser } = useContext(AppContext);
 
 
 
@@ -22,20 +24,19 @@ const Navbar = () => {
         'Authorization':`Bearer ${accessToken}`
       }); 
       
-  
       if(response.success === true){
         setAccessToken('');
+        setCurrentUser({});
         setIsLogin(false);
-        if(response.success === false){
-          console.log("Error in logout")
-        }
-        
+        localStorage.setItem('accessToken', null);
+        localStorage.setItem('isLogin', false);
+        toast.success(response.message);
+
       }
-      else{
-      console.log(response);
-      }
+      
     } catch (error) {
-      console.log("Error in logout: -"+error)
+      toast.error(error.response.data.message);
+
     }
     
   }
