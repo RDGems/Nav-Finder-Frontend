@@ -25,6 +25,9 @@ import AadharCard from './components/driverDetails/AadharCard';
 import PanCard from './components/driverDetails/PanCard';
 import VehicleInsurance from './components/driverDetails/VehicleInsurance';
 import VehiclePermit from './components/driverDetails/VehiclePermit';
+import History from './pages/History';
+import About from './pages/About';
+import Contact from './pages/Contact';
 
 
 
@@ -62,6 +65,9 @@ function App() {
         <Route path='/updateUser' element={<UserForm formFor={'updateDetail'}/>}/>
         <Route path='/cancelRide' element={<CancelRide />}/>
         <Route path='/RideBooked' element={<RideBooked />}/>
+        <Route path='/history' element={<History />}/>
+        <Route path='/About' element={<About />}/>
+        <Route path='/Contact' element={<Contact />}/>
 
 
       </Routes>

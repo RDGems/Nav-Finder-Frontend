@@ -51,6 +51,9 @@ const Navbar = () => {
         {isLogin ? (
           <div className="lg:flex gap-4 items-center  text-white">
             <button  onClick={logoutHandler} className=" bg-slate-800 p-2 rounded-md hover:bg-black">
+             <Link to="/history">History</Link>
+            </button>
+            <button  onClick={logoutHandler} className=" bg-slate-800 p-2 rounded-md hover:bg-black">
              Logout
             </button>
             <button className=" bg-slate-800 p-2 rounded-md hover:bg-black">

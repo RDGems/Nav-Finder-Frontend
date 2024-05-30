@@ -10,6 +10,9 @@ import earth from "../../assests/images/earth.png"
 
 
 const Footer = () => {
+    const app=()=>{
+        window.open()
+    }
   return (
    <div>
     <div className='h-auto  px-[10%] my-[4%] bg-black text-white'>
