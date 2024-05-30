@@ -8,7 +8,7 @@ import Profile  from './pages/Profile';
 import AppContextProvider from './context/AppContextProvider';
 import Driver from './pages/Driver';
 import Ride from './pages/Ride';
-
+import  { Toaster } from 'react-hot-toast';
 import ChangePassword from './pages/ChangePassword';
 import VerifyEmail from './pages/VerifyEmail';
 import VerifyOtp from './pages/VerifyOtp';
@@ -16,6 +16,7 @@ import CancelRide from './pages/CancelRide';
 import RideBooked from './pages/RideBooked';
 // import Driver from './pages/Driver'
 import ResetPassword from './pages/ResetPassword';
+import ForgotPassword from './pages/ForgotPassword';
 import UserForm from './pages/UserForm';
 import ModalContextProvider from './context/ModalContextProvider';
 import DriverForm from './pages/DriverForm';
@@ -68,9 +69,11 @@ function App() {
         <Route path='/history' element={<History />}/>
         <Route path='/About' element={<About />}/>
         <Route path='/Contact' element={<Contact />}/>
+        <Route path='//forgot-password' element={<ForgotPassword />}/>
 
 
       </Routes>
+      <Toaster></Toaster>
     </div>    
     </ModalContextProvider>
     </AppContextProvider>

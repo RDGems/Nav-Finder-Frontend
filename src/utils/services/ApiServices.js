@@ -44,7 +44,7 @@ const useApi = () => {
     } catch (error) {
         // console.log(error);
       setError(error);
-      // throw error;
+      throw error;
     } finally {
       setLoading(false);
     }

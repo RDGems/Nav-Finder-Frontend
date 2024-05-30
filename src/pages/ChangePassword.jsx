@@ -1,15 +1,18 @@
-import { React, useState } from "react";
+import { React, useState,useContext} from "react";
 import Navbar from "../components/Navbar";
 import useApi from '../utils/services/ApiServices'
 import { useNavigate } from "react-router-dom";
-const ChangePassword = () => {
+import toast from "react-hot-toast";
+import AppContext from "../context/AppContext";
 
+const ChangePassword = () => {
+  const { accessToken,isLogin } = useContext(AppContext);
   const navigate = useNavigate();
 
   const { post}=useApi();
   const [changePasswordData,setChangePasswordData] = useState({
     oldPassword:"",
-   password:"",
+    newPassword:"",
     
   });
 
@@ -27,24 +30,20 @@ const ChangePassword = () => {
     event.preventDefault();
     
     try {
+
       const response = await post(url,{
-        "oldPassword": changePasswordData.oldPassword,
-        "password": changePasswordData.password
-      }); 
-      
-  
-      if(response.success === true){
-            navigate('/login')
-        if(response.success === false){
-          console.log("Error in Changing Password")
-        }
+        oldPassword: changePasswordData.oldPassword,
+        password: changePasswordData.newPassword
+      },{
         
+        'Authorization':`Bearer ${accessToken}`
+    }); 
+      toast.success("Password Changed Successful");
+      navigate('/profile')
       }
-      else{
-    //   console.log(response);
-      }
-    } catch (error) {
-      console.log("Error in Changing Password: -"+error)
+   
+    catch (error) {
+      toast.error(error.response.data.message);
     }
 }
 

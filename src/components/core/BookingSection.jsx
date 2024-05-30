@@ -43,7 +43,7 @@ const BookingSection = () => {
 
    const setMyIcone=(value)=>{
     setCurrentTab(value);
-    console.log(currentTab);
+    // console.log(currentTab);
   }
   return (
     <div className='bg-white mt-20 rounded-md  '>
