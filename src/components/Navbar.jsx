@@ -5,6 +5,7 @@ import { useContext } from "react";
 import AppContext from "../context/AppContext";
 import useApi from '../utils/services/ApiServices'
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -13,34 +14,38 @@ const Navbar = () => {
   const {post} = useApi();
   const { isLogin,setIsLogin,setAccessToken,accessToken,setCurrentUser } = useContext(AppContext);
 
+  const navigate = useNavigate();
 
 
   const logoutHandler = async(event)=>{
     const url="/auth/logout";
     event.preventDefault();
     
+    
     try {
       const response = await post(url,{},{
         'Authorization':`Bearer ${accessToken}`
       }); 
-      
+      setAccessToken(null);
+      setCurrentUser(null);
+      setIsLogin(false);
+      localStorage.setItem('accessToken', null);
+      localStorage.setItem('isLogin', false);
       if(response.success === true){
-        setAccessToken('');
-        setCurrentUser({});
-        setIsLogin(false);
-        localStorage.setItem('accessToken', null);
-        localStorage.setItem('isLogin', false);
+       
         toast.success(response.message);
-
+        navigate("/");
       }
       
     } catch (error) {
+      
       toast.error(error.response.data.message);
 
     }
     
   }
 
+  // console.log(isLogin)
   return (
     <div className=" w-screen  px-[10%] flex font-semibold ">
       {/* <div className='flex flex-row bg-slate-50 justify-evenly'> */}
@@ -51,8 +56,8 @@ const Navbar = () => {
 
         {isLogin ? (
           <div className="lg:flex gap-4 items-center  text-white">
-            <button  onClick={logoutHandler} className=" bg-slate-800 p-2 rounded-md hover:bg-black">
-             <Link to="/history">History</Link>
+            <button  className=" bg-slate-800 p-2 rounded-md hover:bg-black">
+             <Link to="/history">Rides History</Link>
             </button>
             <button  onClick={logoutHandler} className=" bg-slate-800 p-2 rounded-md hover:bg-black">
              Logout

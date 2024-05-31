@@ -9,46 +9,12 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
-  // let{setIsLogin,setAccessToken,setOtpForEmail} = useContext(AppContext);
-  // let{openOnBoardingModal,setOpenOnBoardingModal} = useContext(ModalContext);
-  // const navigate = useNavigate();
-  // const { post}=useApi();
-  // const[loginData,setLoginData] = useState({
-  //   email:"",
-  //   password:""
-  // })
 
-  // const handleChange = (event)=>{
-  //   event.preventDefault();
-  //   setLoginData({
-  //     ...loginData,[event.target.name]:event.target.value
-  //   });
-  // }
+  
+  
 
   const handleSubmit = async (event) => {
-    // const url="/auth/login";
-    // event.preventDefault();
-
-    // try {
-    //   const response = await post(url, loginData);
-
-    // if(response.success === true){
-    //   setAccessToken(response.data.accessToken);
-    //   // console.log(response.data.accessToken);
-    //   navigate('/')
-
-    //   if(response.data.isOnboarded === false){
-    //     setOpenOnBoardingModal(true);
-
-    //   }
-    //   setIsLogin(true);
-    // }
-    // else{
-    // // console.log(response);
-    // }
-    // } catch (error) {
-    //   console.log('Error in login: - '+error)
-    // }
+    
     navigate("/");
   };
 

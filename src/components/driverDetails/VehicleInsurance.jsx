@@ -1,8 +1,39 @@
-import React from 'react'
+import {React,useState} from 'react'
 import Vehicle from "../../assests/images/VehicleInsurance.jpg"
-
+import useApi from "../../utils/services/ApiServices";
+import { useNavigate } from "react-router-dom";
 
 const VehicleInsurance = () => {
+  const { post } = useApi();
+  const navigate = useNavigate();
+
+  const [vehicleInsurance, setVehicleInsurance] = useState({
+    documentType: "driverPhoto",
+    file: "",
+  });
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const url = "driver/document/driverPhoto";
+    try {
+      const response = await post(url, vehicleInsurance, {
+        "Content-Type": "multipart/form-data",
+        "access-medium": `Bearer ${localStorage.getItem("driverToken")}`,
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      });
+      // console.log(response);
+      navigate("/AadharCard");
+    } catch (error) {
+      console.log("Error on submitting driver License: -- " + error);
+    }
+    // console.log(driverLicense)
+  };
+
+  const handleFileUpload = (event) => {
+    event.preventDefault();
+    const file = event.target.files[0];
+    vehicleInsurance.file = file;
+  };
   return (
     <div>
         <div className=" text-3xl text-white m-6 font-bold">

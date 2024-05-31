@@ -1,7 +1,8 @@
-import React, { useRef, useState, useContext ,useEffect} from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import toast from "react-hot-toast";
+
 
 import {
   useJsApiLoader,
@@ -14,7 +15,7 @@ import car from "../assests/images/City driver.gif";
 import useApi from "../utils/services/ApiServices";
 import AppContext from "../context/AppContext";
 import Logo from "../assests/images/Black and Cyan Blue Simple Game Animated Logo(1).jpg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 
 // const google = window.google;
 const google = (window.google = window.google ? window.google : {});
@@ -25,83 +26,82 @@ const center = {
   lat: 28.8344,
   lng: 77.5699,
 };
-const data = [
-  {
-    img: car,
-    Name: "Compact Cars",
-    Description: "4 seater ",
-    price: 886,
-  },
-  {
-    img: car,
-    Name: "SUVs Cars",
-    Description: "6 seater ",
-    price: 997,
-  },
-  {
-    img: car,
-    Name: "Bike ",
-    Description: "Motorbike ",
-    price: 325,
-  },
-];
-
 const Ride = () => {
   const navigate = useNavigate();
-  const { accessToken,isLogin } = useContext(AppContext);
-  const[ridesDetail,setRidesDetail]= useState();
-  const { post, get,error } = useApi();
+  const { accessToken, isLogin } = useContext(AppContext);
+  const [ridesDetail, setRidesDetail] = useState();
+  const { post, get } = useApi();
   const [price, setPrice] = useState(0);
+  const location = useLocation();
+  const originRef = useRef();
+  const destinationRef = useRef();
+  const[highlight,setHighlight]=useState('');
   
 
-  const checkoutHandler = async (ele) => {
+  useEffect(() => {
+    if (!localStorage.getItem('isLogin')
+
+    ) {
+      toast.error("Please Login First!");
+      navigate("/login");
+    }
+    // else if(location.state && originRef?.current
+    //   && destinationRef?.current
+    // ){
+    //   console.log(location.state)
+    //   originRef.current.value = location.state.from;
+    //   destinationRef.current.value = location.state.to;
+    // }
+  }, [isLogin]);
+
+
+
+  const checkoutHandler = async () => {
     let url = "payments/checkout";
     try {
-        const response = await post(
-            url,
-            {
-              amount: price,
-            },
-            {
-              Authorization: `Bearer ${accessToken}`,
-            }
-          );
-          console.log(response.data);
-          //get key
-          url = "payments/getKey";
-          const key = await get(url);
-      
-          var options = {
-            key: key.data.key, // Enter the Key ID generated from the Dashboard
-            amount: response.data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-            currency: "INR",
-            name: "NavFinder",
-            description: "Book your Ride",
-            image: { Logo },
-            order_id: response.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-            callback_url: "http://localhost:8000/api/v1/payments/verifyPayment",
-            prefill: {
-              name: "Abhay Garg",
-              email: "abhay@gmail.com",
-            },
-            notes: {
-              address: "Muradnagar",
-            },
-            theme: {
-              color: "#000",
-            },
-          };
-      
-          const razor  = new window.Razorpay(options);
-          
-            razor.open();
-           
-      
-      
-    } catch (error) {
-        
-    }
+      const response = await post(
+        url,
+        {
+          amount: price,
+        },
+        {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      );
+      console.log(response.data);
+      //get key
+      url = "payments/getKey";
+      const key = await get(url,{},{
+            
+        Authorization: `Bearer ${accessToken}`,
     
+    });
+
+      var options = {
+        key: key.data.key, // Enter the Key ID generated from the Dashboard
+        amount: response.data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        currency: "INR",
+        name: "NavFinder",
+        description: "Book your Ride",
+        image: { Logo },
+        order_id: response.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        callback_url: "http://localhost:8000/api/v1/payments/verifyPayment",
+        prefill: {
+          name: "Abhay Garg",
+          email: "abhay@gmail.com",
+        },
+        notes: {
+          address: "Muradnagar",
+        },
+        theme: {
+          color: "#000",
+        },
+      };
+
+      const razor = new window.Razorpay(options);
+
+      razor.open();
+    } catch (error) {}
   };
 
   // const position = {lat: 61.2176, lng: -149.8997};
@@ -113,12 +113,10 @@ const Ride = () => {
   });
 
   const [map, setMap] = useState(/** @type google.maps.map */ (null));
-  const [distance, setDistance] = useState(" ");
-  const [destinationResponse, setDestinationResponse] = useState(null);
-  const [duration, setDuration] = useState(" ");
 
-  const originRef = useRef();
-  const destinationRef = useRef();
+  const [destinationResponse, setDestinationResponse] = useState(null);
+
+ 
 
   if (!isLoaded) {
     return <div className="text-white text-4xl">Loading...</div>;
@@ -138,42 +136,45 @@ const Ride = () => {
       travelMode: google.maps.TravelMode.DRIVING,
     });
     setDestinationResponse(result);
-    setDistance((result.routes[0].legs[0].distance.value/1000));
-    setDuration((result.routes[0].legs[0].duration.value/60));
+
     // console.log(result);
 
-    //fetch rides 
+    //fetch rides
 
-    const url = 'finder/getAfterLocation'
+    const url = "finder/getAfterLocation";
     try {
-      
-      const rides = await post(url, {
-        distance:(result.routes[0].legs[0].distance.value/1000),
-        travelTime:(result.routes[0].legs[0].duration.value/60)
-      },
-      {
-        Authorization: `Bearer ${accessToken}`,
-      })
-      if(rides.success===true){
-
+      const rides = await post(
+        url,
+        {
+          distance: result.routes[0].legs[0].distance.value / 1000,
+          travelTime: result.routes[0].legs[0].duration.value / 60,
+        },
+        {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      );
+      if (rides.success === true) {
         setRidesDetail({
-          rides:rides.data
+          rides: rides.data,
         });
-        console.log(rides.data)
+        // console.log(rides.data);
       }
     } catch (error) {
       // toast.error(error);
-      console.log(error)
+      console.log(error);
     }
+  }
 
+
+  function highlightHandler(){
+    setHighlight('border-4 border-blue-800')
   }
 
   function clearRoute() {
     setDestinationResponse(null);
-    setDistance("");
-    setDuration("");
     originRef.current.value = " ";
     destinationRef.current.value = " ";
+    setRidesDetail({});
   }
 
   return (
@@ -189,7 +190,7 @@ const Ride = () => {
               <input
                 type="text"
                 placeholder="From"
-                className="border-2 border-gray-400 p-2 rounded-md text-slate-800 w-full"
+                className="border-2 border-gray-400  p-2 rounded-md text-slate-800 w-full"
                 ref={originRef}
                 onClick={() => map.panTo(center)}
               />
@@ -221,38 +222,49 @@ const Ride = () => {
           </div>
         </div>
         <div className="w-[40%]">
-          {ridesDetail?.rides && ridesDetail.rides.map((ele, index) => {
-            return (
-              <div
-                key={index}
-                onClick={(event) => {
-                  event.preventDefault();
-                  setPrice(ele.price);
-                  checkoutHandler();
-                }}
-                className=" bg-white border-2 rounded-md flex justify-between mb-5"
-              >
-                <div className="flex items-center font-semibold gap-4">
-                  <img
-                    src={ele.img}
-                    className="w-20 h-20 object-cover"
-                    alt="img"
-                  />
-                  <div className="flex flex-col">
-                    <h1 className="text-black text-xl font-bold">{ele.vehicleType}</h1>
-                    <p className="text-black text-sm">{ele.title}</p>
-                    <p className="text-black text-sm">Away - {ele.away}</p>
-
+          {ridesDetail?.rides &&
+            ridesDetail.rides.map((ele, index) => {
+              return (
+                <div
+                  key={index}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setPrice(Math.round(ele.totalFare));
+                    console.log(price)
+                    highlightHandler()
+                  }}
+                  className={` bg-white border-2 rounded-md flex justify-between mb-5 ${highlight}`}
+                >
+                  <div className="flex items-center font-semibold gap-4">
+                    <img
+                      src={car}
+                      className="w-20 h-20 object-cover"
+                      alt="img"
+                    />
+                    <div className="flex flex-col">
+                      <h1 className="text-black text-xl font-bold">
+                        {ele.vehicleType}
+                      </h1>
+                      <p className="text-black text-sm">{ele.title}</p>
+                      <p className="text-black text-sm">Away - {ele.away}</p>
+                    </div>
                   </div>
-                </div>
-                <h1 className="flex px-4 text-black text-2xl font-bold justify-center items-center">
-                  <FaIndianRupeeSign className=" h-5 px-0" />
+                  <h1 className="flex px-4 text-black text-2xl font-bold justify-center items-center">
+                    <FaIndianRupeeSign className=" h-5 px-0" />
 
-                  {Math.round(ele.totalFare)}
-                </h1>
-              </div>
-            );
-          })}
+                    {Math.round(ele.totalFare)}
+                  </h1>
+                </div>
+              );
+            })}
+           
+            {
+              ridesDetail?.rides &&
+              <button onClick={(e)=>{
+e.preventDefault();
+checkoutHandler()
+              }} className="text-white"> Book Your ride</button>
+            }
         </div>
         <div className="w-[500px] h-[570px]  bg-white border-2 rounded-md">
           {/* google map */}

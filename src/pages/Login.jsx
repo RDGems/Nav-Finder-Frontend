@@ -61,8 +61,8 @@ const Login = () => {
           setCurrentUser(result.data)
           // console.log(result)
           localStorage.setItem('accessToken', response.data.accessToken);
-          // localStorage.setItem('currentUser',result.data);
           localStorage.setItem('isLogin', true);
+          localStorage.setItem('currentUser',response.data.userName);
           navigate('/')
         }
 
