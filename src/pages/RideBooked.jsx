@@ -1,20 +1,49 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import useApi from "../utils/services/ApiServices";
-import AppContext from "../context/AppContext";
-import ModalContext from "../context/ModalContext";
-import { Modal } from "../components/modals/Modal";
-import { OnBoardingModal } from "../components/modals/OnBoardingModal";
+
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
+  const{post} = useApi();
+  useEffect(() => {
+    const bookRide = {
+      pickupLocation: localStorage.getItem('pickupLocation'),
+      dropoffLocation: localStorage.getItem('dropoffLocation'),
+      estimatedFare: localStorage.getItem('estimatedFare'),
+      vehicleType: localStorage.getItem('vehicleType'),
+      paymentMethod: "Online Payment",
+      distance: localStorage.getItem('distance'),
+      duration: localStorage.getItem('duration'),
+      paymentStatus: true,
+    };
 
+    // if(bookRide) {
+     
+    //  getRideDetails(bookRide);
+     
+    // }
+
+  }, []);
+
+  // const getRideDetails = async (bookRide) => {
+  //   const url = '/finder/bookRide'
+  //   try {
+      
+  //   const result = await post(url,bookRide,{
+            
+  //     Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
   
+  // });
+  // console.log(result)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
   
+  // }
 
   const handleSubmit = async (event) => {
-    
     navigate("/");
   };
 
@@ -32,7 +61,7 @@ const Login = () => {
           <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
             <div className="flex flex-col space-y-2 w-full">
               <label className="text-sm text-left font-medium text-white  leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Driver Name
+                Pickup Location
               </label>
 
               <input
@@ -42,9 +71,25 @@ const Login = () => {
                 className="flex h-10 w-full border-none bg-zinc-800 text-white  shadow-input rounded-md px-3 py-2 text-sm  placeholder:text-neutral-400  
             focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-neutral-400 
             disabled:cursor-not-allowed disabled:opacity-50 group-hover/input:shadow-none transition duration-400"
-                id="email"
-                name="email"
-                value="Arick Layal"
+                value={localStorage.getItem('pickupLocation')}
+                // onChange={handleChange}
+                // placeholder="Driver Name"
+                type="text"
+              />
+            </div>
+            <div className="flex flex-col space-y-2 w-full">
+              <label className="text-sm text-left font-medium text-white  leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Drop off Location
+              </label>
+
+              <input
+                onKeyDown={(event) => {
+                  event.preventDefault();
+                }}
+                className="flex h-10 w-full border-none bg-zinc-800 text-white  shadow-input rounded-md px-3 py-2 text-sm  placeholder:text-neutral-400  
+            focus-visible:outline-none focus-visible:ring-[2px]  focus-visible:ring-neutral-400 
+            disabled:cursor-not-allowed disabled:opacity-50 group-hover/input:shadow-none transition duration-400"
+                value={localStorage.getItem('dropoffLocation')}
                 // onChange={handleChange}
                 // placeholder="Driver Name"
                 type="text"
@@ -55,7 +100,7 @@ const Login = () => {
           <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
             <div className="flex flex-col space-y-2 w-full">
               <label className="text-sm text-left font-medium text-white  leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Driver Mobile Number
+                OTP 
               </label>
               <input
                 onKeyDown={(event) => {
@@ -66,7 +111,7 @@ const Login = () => {
             disabled:cursor-not-allowed disabled:opacity-50 group-hover/input:shadow-none transition duration-400"
                 id="password"
                 name="password"
-                value="+91 7303192567"
+                value="659874"
                 // onChange={handleChange}
                 // placeholder="7060280050"
                 type="text"
@@ -76,7 +121,7 @@ const Login = () => {
             </div>
             <div className="flex flex-col space-y-2 w-full">
               <label className="text-sm text-left font-medium text-white  leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Your Otp
+                Total Fare
               </label>
               <input
                 onKeyDown={(event) => {
@@ -89,7 +134,7 @@ const Login = () => {
                 name="password"
                 // onChange={handleChange}
                 // placeholder="123456"
-                value="653454"
+                value={Math.round(localStorage.getItem('estimatedFare'))}
                 type="text"
                 maxLength={6}
               />

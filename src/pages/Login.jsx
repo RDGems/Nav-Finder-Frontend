@@ -38,11 +38,8 @@ const Login = () => {
 
     try {
       const response = await post(url, loginData);
-
-      if (response.data.isEmailVerified === false) {
-        // toast.error('Please verify the mail send to your email id first.')
-        toast.error("Please verify your email first!");
-      } else if (response.data.isEmailVerified === true) {
+ 
+      if (response.success === true) {
         toast.success("Login Successful");
       
 

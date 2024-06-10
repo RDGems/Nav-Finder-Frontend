@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import { useContext } from "react";
 import AppContext from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
@@ -14,10 +14,9 @@ import {
 const TimeLine = () => {
   const { isLogin } = useContext(AppContext);
   const navigate = useNavigate();
-  const [routeDest, setRouteDest] = useState({
-    from: "",
-    to: "",
-  });
+  const fromRoute = useRef();
+  const toRoute = useRef();
+  
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -25,14 +24,14 @@ const TimeLine = () => {
     libraries: ["places"],
   });
 
-  const handleChange = (event) => {
-    event.preventDefault();
-    setRouteDest({
-      ...routeDest,
-      [event.target.name]: event.target.value,
-    });
+  // const handleChange = (event) => {
+  //   event.preventDefault();
+  //   setRouteDest({
+  //     ...routeDest,
+  //     [event.target.name]: event.target.value,
+  //   });
     
-  };
+  // };
  
 
   const searchHandler = (event) => {
@@ -41,8 +40,8 @@ const TimeLine = () => {
       // console.log(routeDest);
       navigate("/ride", {
         state: {
-          from: routeDest.from,
-          to: routeDest.to,
+          from: fromRoute.current.value,
+          to: toRoute.current.value,
         },
       });
     } else {
@@ -66,8 +65,8 @@ const TimeLine = () => {
                     type="text"
                     id="from"
                     name="from"
-                    value={routeDest.from}
-                    onChange={handleChange}
+                    
+                    ref = {fromRoute}
                     className=" w-72 border-2 border-gray-300 rounded-md px-2 py-1"
                     placeholder="From"
                   />
@@ -77,8 +76,8 @@ const TimeLine = () => {
                   <input
                     id="to"
                     name="to"
-                    value={routeDest.to}
-                    onChange={handleChange}
+                    
+                    ref = {toRoute}
                     type="text"
                     className=" w-72 border-2 border-gray-300 rounded-md px-2 py-1"
                     placeholder="Destination"

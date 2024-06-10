@@ -179,7 +179,7 @@ const DriverForm = () => {
                 Registration Certificate
                 <FaGreaterThan />
                 </div> */}
-                  <div className="  items-center p-2 text-white font-semibold  border-2 rounded-md w-auto  border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 ">
+                  {/* <div className="  items-center p-2 text-white font-semibold  border-2 rounded-md w-auto  border-neutral-600 hover:border-2 hover:border-black translate-x-all duration-50 ">
                     <Link
                       to="/VehiclePermit"
                       className="justify-between items-center flex"
@@ -187,7 +187,7 @@ const DriverForm = () => {
                       Vehicle Permit
                       <FaGreaterThan />
                     </Link>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

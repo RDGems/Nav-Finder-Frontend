@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import Pan from "../../assests/images/pan_card.png";
 import useApi from "../../utils/services/ApiServices";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const PanCard = () => {
   const { post } = useApi();
@@ -23,9 +24,24 @@ const PanCard = () => {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       });
       // console.log(response);
-      navigate("/VehiclePermit");
+      
+
     } catch (error) {
       console.log("Error on submitting driver License: -- " + error);
+    }
+    const url1 = 'driver/createDriver'
+    try {
+      const response = await post(url1,{}, {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      });
+if(response){
+  
+  toast.success('Driver Created')
+  navigate('/')
+}
+    } catch (error) {
+      console.log("Error on submitting driver License: -- " + error);
+      navigate('/')
     }
     // console.log(driverLicense)
   };

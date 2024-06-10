@@ -5,7 +5,7 @@ import { useContext } from "react";
 import AppContext from "../context/AppContext";
 import useApi from '../utils/services/ApiServices'
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,redirect } from "react-router-dom";
 
 
 
@@ -53,17 +53,19 @@ const Navbar = () => {
         <Link to="/">
           <img src={Logo} alt="" className=" h-[80px]" />
         </Link>
-
         {isLogin ? (
           <div className="lg:flex gap-4 items-center  text-white">
-            <button  className=" bg-slate-800 p-2 rounded-md hover:bg-black">
-             <Link to="/history">Rides History</Link>
-            </button>
+            
             <button  onClick={logoutHandler} className=" bg-slate-800 p-2 rounded-md hover:bg-black">
              Logout
             </button>
             <button className=" bg-slate-800 p-2 rounded-md hover:bg-black">
               <Link to="/profile">Profile</Link>
+            </button>
+            <button className=" bg-slate-800 p-2 rounded-md hover:bg-black">
+             <a href="https://expo.dev/artifacts/eas/namYH3YcwApnEcRK67ekGz.apk">
+          Download App
+        </a>
             </button>
           </div>
         ) : (
@@ -73,6 +75,11 @@ const Navbar = () => {
             </button>
             <button className=" bg-slate-800 p-2 rounded-md hover:bg-black">
               <Link to="/Signup">Signup</Link>
+            </button>
+            <button className=" bg-slate-800 p-2 rounded-md hover:bg-black">
+             <a href="https://expo.dev/artifacts/eas/namYH3YcwApnEcRK67ekGz.apk">
+          Download App
+        </a>
             </button>
           </div>
         )}

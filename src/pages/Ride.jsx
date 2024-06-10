@@ -3,7 +3,6 @@ import Navbar from "../components/Navbar";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import toast from "react-hot-toast";
 
-
 import {
   useJsApiLoader,
   GoogleMap,
@@ -15,7 +14,7 @@ import car from "../assests/images/City driver.gif";
 import useApi from "../utils/services/ApiServices";
 import AppContext from "../context/AppContext";
 import Logo from "../assests/images/Black and Cyan Blue Simple Game Animated Logo(1).jpg";
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 // const google = window.google;
 const google = (window.google = window.google ? window.google : {});
@@ -27,37 +26,53 @@ const center = {
   lng: 77.5699,
 };
 const Ride = () => {
+  // const [bookRide, setBookRide] = useState({
+  //   pickupLocation: "",
+  //   dropoffLocation: "",
+  //   estimatedFare: "",
+  //   vehicleType: "",
+  //   paymentMethod: "online Payment",
+  //   distance: "",
+  //   duration: "",
+  //   paymentStatus: true,
+  // });
+  // const handlebookRide = (key, value) => {
+  //   setBookRide({
+  //     ...bookRide,
+  //     [key]: value
+  //   });
+  //   // console.log(bookRide);
+  //   console.log(key);
+  //   console.log(value);
+  // };
   const navigate = useNavigate();
-  const { accessToken, isLogin } = useContext(AppContext);
+  const { accessToken, isLogin, currentUser } = useContext(AppContext);
   const [ridesDetail, setRidesDetail] = useState();
   const { post, get } = useApi();
   const [price, setPrice] = useState(0);
   const location = useLocation();
   const originRef = useRef();
   const destinationRef = useRef();
-  const[highlight,setHighlight]=useState('');
-  
+  const [highlight, setHighlight] = useState("");
 
   useEffect(() => {
-    if (!localStorage.getItem('isLogin')
-
-    ) {
+    if (!localStorage.getItem("isLogin")) {
       toast.error("Please Login First!");
       navigate("/login");
     }
-    // else if(location.state && originRef?.current
-    //   && destinationRef?.current
-    // ){
-    //   console.log(location.state)
-    //   originRef.current.value = location.state.from;
-    //   destinationRef.current.value = location.state.to;
-    // }
+    if (location.state && originRef?.current && destinationRef?.current) {
+      // console.log(location.state);
+      originRef.current.value = location.state.from;
+      destinationRef.current.value = location.state.to;
+      calculate();
+      localStorage.setItem("pickupLocation", location.state.from);
+      localStorage.setItem("dropoffLocation", location.state.to);
+    }
   }, [isLogin]);
-
-
 
   const checkoutHandler = async () => {
     let url = "payments/checkout";
+    
     try {
       const response = await post(
         url,
@@ -68,14 +83,16 @@ const Ride = () => {
           Authorization: `Bearer ${accessToken}`,
         }
       );
-      console.log(response.data);
+      // console.log(response.data);
       //get key
       url = "payments/getKey";
-      const key = await get(url,{},{
-            
-        Authorization: `Bearer ${accessToken}`,
-    
-    });
+      const key = await get(
+        url,
+        {},
+        {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      );
 
       var options = {
         key: key.data.key, // Enter the Key ID generated from the Dashboard
@@ -85,10 +102,33 @@ const Ride = () => {
         description: "Book your Ride",
         image: { Logo },
         order_id: response.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-        callback_url: "http://localhost:8000/api/v1/payments/verifyPayment",
+        handler: async (response) => {
+          try {
+            const customHeaders = {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            };
+            const body = {
+              RazorpayOrderId: response.razorpay_order_id,
+              RazorpayPaymentId: response.razorpay_payment_id,
+              RazorpaySignature: response.razorpay_signature,
+              amount: price,
+              method: "Online Payment",
+            };
+            const url = "payments/verifyPayment";
+            // Replace with your checkout API endpoint
+            const verifyResponse = await post(url, body, customHeaders); // Adjust payload as required
+            // console.log(verifyResponse)
+            // if(verifyResponse.success == true){
+              navigate('/RideBooked')
+            // }
+          } catch (error) {
+            console.error("Checkout API error:", error);
+          }
+        },
         prefill: {
-          name: "Abhay Garg",
-          email: "abhay@gmail.com",
+          name: currentUser.userName,
+          email: currentUser.email,
         },
         notes: {
           address: "Muradnagar",
@@ -116,8 +156,6 @@ const Ride = () => {
 
   const [destinationResponse, setDestinationResponse] = useState(null);
 
- 
-
   if (!isLoaded) {
     return <div className="text-white text-4xl">Loading...</div>;
   }
@@ -136,6 +174,10 @@ const Ride = () => {
       travelMode: google.maps.TravelMode.DRIVING,
     });
     setDestinationResponse(result);
+    localStorage.setItem("pickupLocation", originRef.current.value);
+    localStorage.setItem("dropoffLocation", destinationRef.current.value);
+    localStorage.setItem("duration", result.routes[0].legs[0].duration.value / 60);
+    localStorage.setItem("distance", result.routes[0].legs[0].distance.value / 1000);
 
     // console.log(result);
 
@@ -157,6 +199,7 @@ const Ride = () => {
         setRidesDetail({
           rides: rides.data,
         });
+
         // console.log(rides.data);
       }
     } catch (error) {
@@ -165,9 +208,8 @@ const Ride = () => {
     }
   }
 
-
-  function highlightHandler(){
-    setHighlight('border-4 border-blue-800')
+  function highlightHandler() {
+    setHighlight("border-4 border-blue-800");
   }
 
   function clearRoute() {
@@ -230,8 +272,11 @@ const Ride = () => {
                   onClick={(event) => {
                     event.preventDefault();
                     setPrice(Math.round(ele.totalFare));
-                    console.log(price)
-                    highlightHandler()
+                    localStorage.setItem("vehicleType", ele.vehicleType);
+                    localStorage.setItem("estimatedFare", ele.totalFare);
+                    // console.log(price);
+
+                    highlightHandler();
                   }}
                   className={` bg-white border-2 rounded-md flex justify-between mb-5 ${highlight}`}
                 >
@@ -257,14 +302,19 @@ const Ride = () => {
                 </div>
               );
             })}
-           
-            {
-              ridesDetail?.rides &&
-              <button onClick={(e)=>{
-e.preventDefault();
-checkoutHandler()
-              }} className="text-white"> Book Your ride</button>
-            }
+
+          {ridesDetail?.rides && (
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                checkoutHandler();
+              }}
+              className="text-white"
+            >
+              {" "}
+              Book Your ride
+            </button>
+          )}
         </div>
         <div className="w-[500px] h-[570px]  bg-white border-2 rounded-md">
           {/* google map */}
